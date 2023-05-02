@@ -16,4 +16,8 @@ public class RestaurantRequest {
     List<String> tags;
     double latitude;
     double longitude;
+
+    boolean isActive;
+
+
 }

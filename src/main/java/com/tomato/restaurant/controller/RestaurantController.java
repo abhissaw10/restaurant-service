@@ -2,6 +2,7 @@ package com.tomato.restaurant.controller;
 
 import com.tomato.restaurant.dto.RestaurantRequest;
 import com.tomato.restaurant.entity.Restaurant;
+import com.tomato.restaurant.entity.SearchRestaurant;
 import com.tomato.restaurant.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,11 @@ public class RestaurantController {
     public String create(@RequestBody RestaurantRequest restaurantRequest) {
         return restaurantService.create(restaurantRequest);
     }
+
+    @PutMapping("/api/restaurants/{restaurantId}")
+    public void update(@RequestBody RestaurantRequest restaurantRequest, @PathVariable String restaurantId) {
+        restaurantService.update(restaurantRequest, restaurantId);
+    }
     @GetMapping("/api/restaurants/")
     public List<Restaurant> getAll() {
         return restaurantService.getAll();
@@ -30,9 +36,9 @@ public class RestaurantController {
     }
 
     @GetMapping("/api/restaurants/byDistance")
-    public List<Restaurant> getClosestTo(@RequestParam("lat") Double latitude,
-                                         @RequestParam("long") Double longitude,
-                                         @RequestParam("d") int distance) {
+    public List<SearchRestaurant> getClosestTo(@RequestParam("lat") Double latitude,
+                                               @RequestParam("long") Double longitude,
+                                               @RequestParam("dist") int distance) {
         return restaurantService.getNearBy(latitude, longitude, distance);
     }
 }

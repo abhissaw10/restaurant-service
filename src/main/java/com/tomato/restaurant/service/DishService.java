@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -16,6 +17,10 @@ public class DishService {
 
     public void create(String restaurantId, List<Dish> dishes) {
         Restaurant restaurant = restaurantRepository.findById(restaurantId).get();
+        for(Dish dish: dishes){
+            dish.setId(UUID.randomUUID().toString());
+            dish.setAvailable(true);
+        }
         if(restaurant.getDishes() == null) {
             restaurant.setDishes(dishes);
         }else {
@@ -37,6 +42,7 @@ public class DishService {
                     dish.setRating(dishRequest.getRating());
                     dish.setImage_url(dishRequest.getImage_url());
                     dish.setTags(dishRequest.getTags());
+                    dish.setAvailable(dishRequest.isAvailable());
                     break;
                 }
             }
